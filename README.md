@@ -64,7 +64,7 @@ TensorNote 用户：先打开 [交互式学习主页](./docs/README.md)，按“
 | [第六章 大模型训练实践](./docs/chapter6/第六章%20大模型训练流程实践.md) | 预训练、有监督微调、LoRA/QLoRA 高效微调 | ✅ |
 | [第七章 大模型应用](./docs/chapter7/第七章%20大模型应用.md) | 模型评测、RAG 检索增强、Agent 智能体 | ✅ |
 | [第八章 Agentic-RL ](./docs/chapter8/第八章%20大模型强化学习.md) | GRPO、OPD、Search-R1、ReTool（Coding Agent-RL） | ✅ |
-| [Extra Chapter LLM Blog](./Extra-Chapter/) | 优秀的大模型 学习笔记/Blog ，欢迎大家来 PR ！| 🚧 |
+| [Extra Chapter LLM Blog](./docs/extra-chapter/) | 优秀的大模型 学习笔记/Blog ，欢迎大家来 PR ！| 🚧 |
 
 > 第六章正文已覆盖 Pretrain、SFT 与 PEFT 等核心训练流程，建议结合 [第六章实践说明](./docs/chapter6/readme.md) 和 [学习与环境准备](./docs/学习与环境准备.md) 一起阅读。
 
@@ -72,23 +72,23 @@ TensorNote 用户：先打开 [交互式学习主页](./docs/README.md)，按“
 
 ### Extra Chapter LLM Blog
 
-- [大模型都这么厉害了，微调0.6B的小模型有什么意义？](./Extra-Chapter/why-fine-tune-small-large-language-models/readme.md) @[不要葱姜蒜](https://github.com/KMnO4-zx) 2025-7-11
+- [大模型都这么厉害了，微调0.6B的小模型有什么意义？](./docs/extra-chapter/why-fine-tune-small-large-language-models/readme.md) @[不要葱姜蒜](https://github.com/KMnO4-zx) 2025-7-11
 
-- [Transformer 整体模块设计解读](./Extra-Chapter/transformer-architecture/) @[ditingdapeng](https://github.com/ditingdapeng) 2025-7-14
+- [Transformer 整体模块设计解读](./docs/extra-chapter/transformer-architecture/) @[ditingdapeng](https://github.com/ditingdapeng) 2025-7-14
 
-- [文本数据处理详解](./Extra-Chapter/text-data-processing/readme.md) @[蔡鋆捷](https://github.com/xinala-781) 2025-7-14
+- [文本数据处理详解](./docs/extra-chapter/text-data-processing/readme.md) @[蔡鋆捷](https://github.com/xinala-781) 2025-7-14
 
-- [Qwen3-"VL"——超小中文多模态模型的“拼接微调”之路](./Extra-Chapter/vlm-concatenation-finetune/README.md) @[ShaohonChen](https://github.com/ShaohonChen) 2025-7-30
+- [Qwen3-"VL"——超小中文多模态模型的“拼接微调”之路](./docs/extra-chapter/vlm-concatenation-finetune/README.md) @[ShaohonChen](https://github.com/ShaohonChen) 2025-7-30
 
-- [S1: Thinking Budget with vLLM](./Extra-Chapter/s1-vllm-thinking-budget/readme.md) @[不要葱姜蒜](https://github.com/kmno4-zx) 2025-8-03
-
-
-- [CDDRS: 使用细粒度语义信息指导增强的RAG检索方法](./Extra-Chapter/CDDRS/readme.md) @[Hongru0306](https://github.com/Hongru0306) 2025-8-21
-
-- [大模型生成 Token 的方式有哪些？](./Extra-Chapter/generation-method/readme.md) @[不要葱姜蒜](https://github.com/kmno4-zx) 2025-10-17
+- [S1: Thinking Budget with vLLM](./docs/extra-chapter/s1-vllm-thinking-budget/readme.md) @[不要葱姜蒜](https://github.com/kmno4-zx) 2025-8-03
 
 
-> &emsp;&emsp;*如果大家在学习 Happy-LLM 项目或 LLM 相关知识中有自己独到的见解、认知、实践，欢迎大家 PR 在 [Extra Chapter LLM Blog](./Extra-Chapter/) 中。请遵守 Extra Chapter LLM Blog 的 [PR 规范](./Extra-Chapter/Readme.md)，我们会视 PR 内容的质量和价值来决定是否合并或补充到 Happy-LLM 正文中来。*
+- [CDDRS: 使用细粒度语义信息指导增强的RAG检索方法](./docs/extra-chapter/CDDRS/readme.md) @[Hongru0306](https://github.com/Hongru0306) 2025-8-21
+
+- [大模型生成 Token 的方式有哪些？](./docs/extra-chapter/generation-method/readme.md) @[不要葱姜蒜](https://github.com/kmno4-zx) 2025-10-17
+
+
+> &emsp;&emsp;*如果大家在学习 Happy-LLM 项目或 LLM 相关知识中有自己独到的见解、认知、实践，欢迎大家 PR 在 [Extra Chapter LLM Blog](./docs/extra-chapter/) 中。请遵守 Extra Chapter LLM Blog 的 [PR 规范](./docs/extra-chapter/Readme.md)，我们会视 PR 内容的质量和价值来决定是否合并或补充到 Happy-LLM 正文中来。*
 
 ### 模型下载
 

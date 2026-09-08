@@ -162,3 +162,4 @@ cython_debug/
 .obsidian
 
 .claude/
+node_modules/

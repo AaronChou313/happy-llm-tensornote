@@ -35,4 +35,5 @@ publishing:
 extensions:
   happyLlm:
     upstream: https://github.com/datawhalechina/happy-llm
+    repository: https://github.com/AaronChou313/happy-llm-tensornote
     adaptation: tensornote

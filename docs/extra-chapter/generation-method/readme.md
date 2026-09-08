@@ -1,4 +1,19 @@
-# 大模型生成Token的方式
+---
+id: generation-methods
+title: 大模型生成 Token 的方式
+section: 拓展专题 / 生成
+order: 930
+tags: [generation, decoding, sampling, beam-search]
+aliases: [大模型生成Token的方式, 解码策略]
+prerequisites: [large-language-models]
+summary: 比较贪婪、采样、Top-k、温度与束搜索等生成策略的机制和适用场景。
+status: stable
+---
+
+# 大模型生成 Token 的方式
+
+> [!bridge]
+> 先完成 [[sampling-lab|温度与 Top-k 采样实验]]，再用本专题建立完整的解码策略图谱。
 
 > 代码已更新到 Happy-LLM 仓库第五章的代码中。
 

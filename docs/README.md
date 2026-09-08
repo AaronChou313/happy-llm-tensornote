@@ -39,6 +39,7 @@ source: https://github.com/datawhalechina/happy-llm
 | 训练 | [[llm-training-practice|第六章 大模型训练流程实践]] | [[lora-lab|LoRA 参数效率实验]] | 能判断全参微调与 PEFT 的成本边界 |
 | 应用 | [[llm-applications|第七章 大模型应用]] | 使用章节中的 RAG / Agent 工程入口 | 能描述检索、生成与工具调用的数据流 |
 | 强化学习 | [[llm-reinforcement-learning|第八章 大模型强化学习]] | [[grpo-lab|组内相对优势实验]] | 能解释组内标准化如何产生相对优势 |
+| 拓展 | [[extra-chapter-home|拓展专题]] | 按兴趣选择社区文章与配套工程 | 能把专题放回主线知识图谱中理解 |
 
 ## 在 TensorNote 中学习
 
@@ -49,6 +50,12 @@ source: https://github.com/datawhalechina/happy-llm
 
 > [!pitfall]
 > `features.executable: true` 只表示本仓库有意提供 Lab，并不等于自动授权运行。你仍需在 TensorNote 中审阅代码、允许当前 Workspace 执行，并连接可访问的 Jupyter Kernel；GitHub Workspace 还需要信任当前提交。
+
+## 通过 GitHub 打开
+
+仓库发布为公开 GitHub Repository 后，在 TensorNote 的 **Open Workspace → GitHub** 中粘贴 [`https://github.com/AaronChou313/happy-llm-tensornote`](https://github.com/AaronChou313/happy-llm-tensornote) 即可。TensorNote 会从仓库根目录读取 `tensornote.yaml`，以本页作为默认笔记，并按 `docs/` 下的文件结构构建导航。
+
+GitHub Workspace 默认只读；阅读、搜索、WikiLink 和属性浏览不需要本地服务。运行 Lab 时，读者还需信任当前 `owner/repository@commitSHA`、允许执行，并连接自己的 Jupyter Compute Profile。仓库更新到新提交后，执行信任需要重新确认。
 
 ## 两种实践强度
 
@@ -70,6 +77,7 @@ source: https://github.com/datawhalechina/happy-llm
 - [ ] 第六章：预训练、SFT 与 PEFT
 - [ ] 第七章：评测、RAG 与 Agent
 - [ ] 第八章：Agentic RL
+- [ ] 按兴趣完成至少一个拓展专题
 
 ## 来源与许可
 

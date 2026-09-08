@@ -1,4 +1,19 @@
-# Extra-Chapter：text-data-processing
+---
+id: text-data-processing
+title: 文本数据处理详解
+section: 拓展专题 / 数据
+order: 910
+tags: [dataset, tokenization, embedding, preprocessing]
+aliases: [Extra-Chapter：text-data-processing, 文本数据处理]
+prerequisites: [nlp-foundations]
+summary: 从词嵌入、数据清洗和切分出发，系统梳理大模型训练前的文本数据处理流程。
+status: stable
+---
+
+# 文本数据处理详解
+
+> [!bridge]
+> 本专题扩展 [[nlp-foundations|第一章 NLP 基础概念]]；其中依赖 PyTorch、NumPy、Matplotlib 等库的代码保持为说明性 Fence。
 
 本补充章节旨在对大模型数据处理做一个简单的梳理与具体的代码实现，帮助大家对于大模型的数据处理有一个更加清晰的认识。
 

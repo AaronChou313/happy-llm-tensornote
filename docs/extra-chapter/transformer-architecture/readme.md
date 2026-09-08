@@ -1,4 +1,19 @@
-# transformer-architecture
+---
+id: transformer-architecture-deep-dive
+title: Transformer 整体模块设计解读
+section: 拓展专题 / Transformer
+order: 920
+tags: [transformer, attention, architecture, deep-dive]
+aliases: [Transformer 模块设计解读]
+prerequisites: [transformer-architecture]
+summary: 从完整模块视角串联 Transformer 的嵌入、注意力、前馈网络与残差结构。
+status: stable
+---
+
+# Transformer 整体模块设计解读
+
+> [!bridge]
+> 这是 [[transformer-architecture|第二章 Transformer 架构]] 的图解补充，建议先完成 [[attention-lab|缩放点积注意力实验]]。
 
 当本节内容作为第二章 Transformer架构中2.2章节Encoder-Decoder的补充，结合Pytorch的API源码，从Transformer的整体设计上来解释Transformer的各个模块。
 

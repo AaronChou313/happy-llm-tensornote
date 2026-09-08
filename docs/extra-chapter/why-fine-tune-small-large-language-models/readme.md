@@ -1,4 +1,19 @@
-# 大模型都这么厉害了，微调0.6B的小模型有什么意义？
+---
+id: why-finetune-small-models
+title: 为什么还要微调 0.6B 小模型
+section: 拓展专题 / 微调
+order: 950
+tags: [finetuning, small-model, privacy, cost]
+aliases: [大模型都这么厉害了，微调0.6B的小模型有什么意义？]
+prerequisites: [llm-training-practice]
+summary: 从数据隐私、推理并发和调用成本出发，判断何时值得微调并部署小模型。
+status: stable
+---
+
+# 为什么还要微调 0.6B 小模型
+
+> [!important]
+> 本专题包含包安装、数据下载和模型训练示例，代码保持为说明性 Fence；运行前请检查数据许可、网络访问和显存需求。
 
 大家在日常使用Deepseek-R1或者是阿里新发布的Qwen3模型，他们的模型都是能力很强，所提供的API服也都可以满足大家的日常或者是公司开发所需。但大家也可以想一个简单的问题几个简单的问题，如下：
 

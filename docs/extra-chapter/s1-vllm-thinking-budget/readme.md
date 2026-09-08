@@ -1,4 +1,19 @@
-# S1: Thinking Budget with vLLM
+---
+id: s1-thinking-budget
+title: S1：使用 vLLM 控制思考预算
+section: 拓展专题 / 推理
+order: 940
+tags: [reasoning, inference, vllm, test-time-scaling]
+aliases: [S1 Thinking Budget with vLLM]
+prerequisites: [large-language-models]
+summary: 理解测试时扩展和思考预算的基本思路，并阅读基于 vLLM 的实现流程。
+status: stable
+---
+
+# S1：使用 vLLM 控制思考预算
+
+> [!important]
+> 本专题需要下载模型并运行 vLLM，不属于轻量 TensorNote Lab；请在合适的 GPU 环境中手动运行配套脚本。
 
 首先，我们来了解一下AI教母李飞飞教授关于 Test-time scaling 的论文：[*《s1: Simple test-time scaling》*](http://arxiv.org/abs/2501.19393)
 

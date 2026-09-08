@@ -1,4 +1,20 @@
-# 建筑文档智能RAG审查系统
+---
+id: cddrs-rag-review
+title: 建筑文档智能 RAG 审查系统
+section: 拓展专题 / RAG
+order: 960
+tags: [rag, retrieval, document-review, application]
+aliases: [CDDRS, 建筑文档智能RAG审查系统]
+prerequisites: [llm-applications]
+summary: 通过动态语义分块和知识引导检索，理解专业建筑文档审查系统的完整设计思路。
+status: stable
+source: https://github.com/Hongru0306/CDDRS
+---
+
+# 建筑文档智能 RAG 审查系统
+
+> [!important]
+> 本专题的示例涉及外部 LLM API、Embedding 服务和凭证配置，代码保持为说明性 Fence；请勿在笔记中写入真实密钥。
 
 一个从零开始实现的建筑文档智能审查系统，旨在帮助开发者理解知识引导检索在专业领域文档审查中的核心原理和实现细节。
 

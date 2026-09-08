@@ -24,3 +24,4 @@ status: stable
     - [第六章实践说明](./chapter6/readme.md)
   - [第七章 大模型应用](./chapter7/第七章%20大模型应用.md)
   - [第八章 大模型强化学习](./chapter8/第八章%20大模型强化学习.md)
+  - [拓展专题](./extra-chapter/Readme.md)

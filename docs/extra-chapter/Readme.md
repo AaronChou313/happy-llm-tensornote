@@ -1,3 +1,21 @@
+---
+id: extra-chapter-home
+title: 拓展专题
+section: 拓展专题 / 导航
+order: 900
+tags: [extra-chapter, community, roadmap]
+aliases: [Extra Chapter, Extra Chapter LLM Blog]
+prerequisites: [happy-llm-course-home]
+summary: 汇集社区贡献的 LLM 深入讲解、实践案例与前沿专题，并说明内容贡献规范。
+status: growing
+source: https://github.com/datawhalechina/happy-llm
+---
+
+# 拓展专题
+
+> [!bridge]
+> 拓展内容不要求线性阅读。可从 [[happy-llm-course-home|课程主页]] 按兴趣进入，并先确认每篇专题的先修章节与运行要求。
+
 <div align="center">
   <h2>🚀 Happy-LLM 扩展内容</h2>
   <p><em>社区驱动的大语言模型学习资源</em></p>
@@ -25,6 +43,21 @@
 - 💭 **思考感悟**：对大语言模型发展的独特见解
 - 🎯 **专题研究**：特定领域或问题的深入分析
 
+## TensorNote 专题导航
+
+| 专题 | 建议先修 | 实践强度 |
+| --- | --- | --- |
+| [[text-data-processing|文本数据处理详解]] | [[nlp-foundations|第一章 NLP 基础概念]] | 中等，依赖数据处理与绘图库 |
+| [[transformer-architecture-deep-dive|Transformer 整体模块设计解读]] | [[transformer-architecture|第二章 Transformer 架构]] | 阅读为主 |
+| [[generation-methods|大模型生成 Token 的方式]] | [[large-language-models|第四章 大语言模型]] | 中等，完整代码依赖 PyTorch |
+| [[s1-thinking-budget|S1：使用 vLLM 控制思考预算]] | [[large-language-models|第四章 大语言模型]] | 重型，需要模型与 GPU |
+| [[why-finetune-small-models|为什么还要微调 0.6B 小模型]] | [[llm-training-practice|第六章训练实践]] | 重型，需要下载与训练 |
+| [[cddrs-rag-review|建筑文档智能 RAG 审查系统]] | [[llm-applications|第七章大模型应用]] | 重型，需要外部服务 |
+| [[qwen3-smvlm-concatenation-finetune|Qwen3-SmVL 拼接微调实践]] | [[build-an-llm|第五章]]、[[llm-training-practice|第六章]] | 重型，需要数据集与 GPU |
+
+> [!remember]
+> 专题中的现有 Python、Shell 和 Notebook 内容保持原始教学形态，不会因为进入 TensorNote 内容树而自动获得执行权限。
+
 ---
 
 ## 📋 PR 贡献规范
@@ -36,7 +69,7 @@
 每个贡献的内容应按照以下目录结构组织：
 
 ```
-Extra-Chapter/
+docs/extra-chapter/
 ├── your-topic-name/                    # 你的主题文件夹
 │   ├── readme.md                       # 主要内容文件（必需）
 │   ├── images/                         # 图片资源文件夹（可选）

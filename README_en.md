@@ -16,6 +16,9 @@
 
 </div>
 
+> [!NOTE]
+> This fork is adapted as a TensorNote knowledge workspace. Open the repository root in TensorNote, or paste [`https://github.com/AaronChou313/happy-llm-tensornote`](https://github.com/AaronChou313/happy-llm-tensornote) into **Open Workspace → GitHub**, then start from [`docs/README.md`](./docs/README.md). The original Happy-LLM chapters and experiment sources remain available.
+
 <div align="center">
   <p><a href="https://datawhalechina.github.io/happy-llm/">📚 Online Reading</a></p>
   <h3>📚 A Comprehensive Tutorial on Large Language Model Principles and Practice from Scratch</h3>
@@ -53,26 +56,26 @@
 | [Chapter 6: Large Model Training Practice](./docs/chapter6/第六章%20大模型训练流程实践.md) | Pre-training, supervised fine-tuning, LoRA/QLoRA efficient fine-tuning | 🚧 |
 | [Chapter 7: Large Model Applications](./docs/chapter7/第七章%20大模型应用.md) | Model evaluation, RAG retrieval enhancement, Agent intelligent agents | ✅ |
 | [Chapter 8: Agentic-RL](./docs/chapter8/第八章%20大模型强化学习.md) | GRPO, OPD, Search-R1, and ReTool (Coding Agent-RL) | ✅ |
-| [Extra Chapter LLM Blog](./Extra-Chapter/) | Excellent Learning Notes/Blog on LLMs ，Welcome PR ！| 🚧 |
+| [Extra Chapter LLM Blog](./docs/extra-chapter/) | Excellent Learning Notes/Blog on LLMs ，Welcome PR ！| 🚧 |
 
 > Chapter 8 focuses on GRPO, OPD, Search-R1, and ReTool. For more Agentic RL algorithms, training code, and hands-on experiments, visit [agentic-rl-lab](https://github.com/KMnO4-zx/agentic-rl-lab), another repository maintained by the author and updated more frequently with new algorithms and environments.
 
 ### Extra Chapter LLM Blog
 
-- [With large models becoming so powerful, what’s the significance of fine-tuning a 0.6B small model?](./Extra-Chapter/why-fine-tune-small-large-language-models/readme.md) @[不要葱姜蒜](https://github.com/KMnO4-zx) 2025-7-11
+- [With large models becoming so powerful, what’s the significance of fine-tuning a 0.6B small model?](./docs/extra-chapter/why-fine-tune-small-large-language-models/readme.md) @[不要葱姜蒜](https://github.com/KMnO4-zx) 2025-7-11
 
-- [Details of the Transformer modules](./Extra-Chapter/transformer-architecture/) @[ditingdapeng](https://github.com/ditingdapeng) 2025-7-14
+- [Details of the Transformer modules](./docs/extra-chapter/transformer-architecture/) @[ditingdapeng](https://github.com/ditingdapeng) 2025-7-14
 
-- [Detailed Explanation of Text Data Processing](./Extra-Chapter/text-data-processing/readme.md) @[蔡鋆捷](https://github.com/xinala-781) 2025-7-14
+- [Detailed Explanation of Text Data Processing](./docs/extra-chapter/text-data-processing/readme.md) @[蔡鋆捷](https://github.com/xinala-781) 2025-7-14
 
-- [Qwen3-"VL"——Path to 'Concatenation Fine-tuning' for Ultra-small Chinese Multimodal Models](./Extra-Chapter/vlm-concatenation-finetune/README.md) @[ShaohonChen](https://github.com/ShaohonChen) 2025-7-30
+- [Qwen3-"VL"——Path to 'Concatenation Fine-tuning' for Ultra-small Chinese Multimodal Models](./docs/extra-chapter/vlm-concatenation-finetune/README.md) @[ShaohonChen](https://github.com/ShaohonChen) 2025-7-30
 
-- [S1: Thinking Budget with vLLM](./Extra-Chapter/s1-vllm-thinking-budget/readme.md) @[kmno4-zx](https://github.com/kmno4-zx) 2025-8-03
+- [S1: Thinking Budget with vLLM](./docs/extra-chapter/s1-vllm-thinking-budget/readme.md) @[kmno4-zx](https://github.com/kmno4-zx) 2025-8-03
 
-- [CDDRS: Key elements guided Enhancement for RAG-based Retrieval Methods](./Extra-Chapter/CDDRS/readme.md) @[Hongru0306](https://github.com/Hongru0306) 2025-8-21
+- [CDDRS: Key elements guided Enhancement for RAG-based Retrieval Methods](./docs/extra-chapter/CDDRS/readme.md) @[Hongru0306](https://github.com/Hongru0306) 2025-8-21
 
 
-> &emsp;&emsp;* If anyone has unique insights, knowledge, or practices related to the Happy-LLM project or LLMs in general, you are welcome to submit a PR to the [Extra Chapter LLM Blog](./Extra-Chapter/). Please adhere to the [PR Guidances](./Extra-Chapter/Readme.md). We will decide whether to merge or supplement the content into the main Happy-LLM text based on the quality and value of the PR.*
+> &emsp;&emsp;* If anyone has unique insights, knowledge, or practices related to the Happy-LLM project or LLMs in general, you are welcome to submit a PR to the [Extra Chapter LLM Blog](./docs/extra-chapter/). Please adhere to the [PR Guidances](./docs/extra-chapter/Readme.md). We will decide whether to merge or supplement the content into the main Happy-LLM text based on the quality and value of the PR.*
 
 
 ### Model Downloads

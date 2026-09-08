@@ -1,4 +1,20 @@
-# Qwen3-"VL"——超小中文多模态模型的“拼接微调”之路1（附代码和SwanLab记录）
+---
+id: qwen3-smvlm-concatenation-finetune
+title: Qwen3-SmVL 拼接微调实践
+section: 拓展专题 / 多模态
+order: 980
+tags: [vlm, qwen, finetuning, multimodal]
+aliases: [Qwen3-VL 拼接微调, Qwen3-SmVL]
+prerequisites: [build-an-llm, llm-training-practice]
+summary: 通过替换语言模块、连接器与词表，理解超小中文视觉语言模型的拼接和微调流程。
+status: stable
+source: https://github.com/ShaohonChen/Qwen3-SmVL
+---
+
+# Qwen3-SmVL 拼接微调实践
+
+> [!important]
+> 本专题包含模型与数据集下载及 GPU 训练命令，代码保持为说明性 Fence；请在隔离环境中手动运行。
 
 * 作者：情感机器实验室——陈少宏
 
@@ -580,7 +596,7 @@ qwen_smvl.save_pretrained(training_args.output_dir)
 
 完整代码见[代码及数据集链接汇总](#代码及数据集链接汇总)
 
-或者直接由[完整项目GitHub地址]()
+或者直接访问[完整项目 GitHub 地址](https://github.com/ShaohonChen/Qwen3-SmVL)。
 
 ## 微调训练&结果展示
 
