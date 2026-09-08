@@ -1,3 +1,17 @@
+---
+id: legacy-docsify-sidebar
+title: 旧版 Docsify 导航
+section: 课程导航
+order: 99
+tags: [navigation, legacy]
+aliases: []
+prerequisites: [happy-llm-course-home]
+summary: 保留原站点的 Docsify 侧边栏，同时将 TensorNote 学习主页作为主要入口。
+status: stable
+---
+
+# 旧版 Docsify 导航
+
 - [Happy-LLM](./README.md)
   - [学习与环境准备](./学习与环境准备.md)
   - [前言](./前言.md)

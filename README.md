@@ -21,6 +21,9 @@
 
 </div>
 
+> [!NOTE]
+> 这是面向 TensorNote 阅读与实验体验的适配分支。请在 TensorNote 中打开仓库根目录，并从 [`docs/README.md`](./docs/README.md) 的课程主页开始；原 Happy-LLM 正文与工程代码仍然保留。
+
 <div align="center">
   <p><a href="https://datawhalechina.github.io/happy-llm/">📚 在线阅读地址</a></p>
   <h3>📚 从零开始构建大模型</h3>
@@ -46,6 +49,8 @@
 - 🚀 **实战应用** RAG、Agent 等前沿技术
 
 ## 📖 内容导航
+
+TensorNote 用户：先打开 [交互式学习主页](./docs/README.md)，按“阅读 → 预测 → 实验 → 复盘”的路径学习。
 
 | 章节 | 关键内容 | 状态 |
 | --- | --- | --- |

@@ -1,3 +1,15 @@
+---
+id: search-r1-code-guide
+title: Search-R1 配套代码
+section: 第二部分 / 实战 / Agentic RL
+order: 830
+tags: [search-r1, code, agent]
+aliases: []
+prerequisites: [llm-reinforcement-learning]
+summary: 说明 Search-R1 数据、搜索、奖励、Rollout 与训练脚本的协作关系。
+status: stable
+---
+
 # Search-R1 配套代码
 
 > **代码来源：** 本目录代码引用并整理自本章作者维护的 [agentic-rl-lab](https://github.com/KMnO4-zx/agentic-rl-lab) 中的 [03-search-r1](https://github.com/KMnO4-zx/agentic-rl-lab/tree/main/03-search-r1) 实现，当前版本适配 Happy-LLM 第八章与 PyTRIO 0.2.6。

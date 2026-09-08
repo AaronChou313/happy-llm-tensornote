@@ -1,3 +1,15 @@
+---
+id: opd-code-guide
+title: OPD 配套代码
+section: 第二部分 / 实战 / Agentic RL
+order: 820
+tags: [opd, code, training]
+aliases: []
+prerequisites: [llm-reinforcement-learning]
+summary: 说明 OPD 同步与异步训练示例的入口、配置和运行要求。
+status: stable
+---
+
 # OPD 配套代码
 
 > **代码来源：** 本目录代码引用并整理自本章作者维护的 [agentic-rl-lab](https://github.com/KMnO4-zx/agentic-rl-lab) 中的 [02-opd](https://github.com/KMnO4-zx/agentic-rl-lab/tree/main/02-opd) 实现，当前版本适配 Happy-LLM 第八章与 PyTRIO 0.2.6。

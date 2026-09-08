@@ -1,0 +1,38 @@
+schemaVersion: 1
+
+workspace:
+  name: Happy-LLM TensorNote
+  description: 在阅读 Happy-LLM 教程的同时，通过可重复实验验证 LLM 核心概念
+
+content:
+  root: docs
+
+assets:
+  root: docs/images
+
+navigation:
+  mode: filesystem
+
+features:
+  executable: true
+
+environment:
+  files:
+    - docs/chapter2/code/requirements.txt
+    - docs/chapter5/code/requirements.txt
+    - docs/chapter6/code/requirements.txt
+    - docs/chapter7/RAG/requirements.txt
+    - docs/chapter7/Agent/requirements.txt
+    - docs/chapter8/requirements.txt
+
+publishing:
+  title: Happy-LLM TensorNote
+  description: 从 NLP 基础到 Agentic RL 的可阅读、可实验学习路径
+  logo: docs/images/head.jpg
+  accent: '#2563eb'
+  defaultNote: happy-llm-course-home
+
+extensions:
+  happyLlm:
+    upstream: https://github.com/datawhalechina/happy-llm
+    adaptation: tensornote

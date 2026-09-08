@@ -1,4 +1,19 @@
+---
+id: nlp-foundations
+title: 第一章 NLP 基础概念
+section: 第一部分 / 理论基础
+order: 100
+tags: [nlp, text-representation, tokenization]
+aliases: [NLP 基础概念]
+prerequisites: [learning-environment]
+summary: 理解 NLP 的任务谱系与文本表示演进，为后续语言模型建立共同词汇。
+status: stable
+---
+
 # 第一章 NLP 基础概念
+
+> [!bridge]
+> 学习路径：[[happy-llm-course-home|课程主页]] → 本章 → [[tokenization-lab|文本切分与词表实验]] → [[transformer-architecture|第二章 Transformer 架构]]。
 
 自然语言处理（Natural Language Processing，NLP）作为人工智能领域的一个重要分支，旨在使计算机能够理解和处理人类语言，实现人机之间的自然交流。随着信息技术的飞速发展，文本数据已成为我们日常生活中不可或缺的一部分，NLP技术的进步为我们从海量文本中提取有用信息、理解语言的深层含义提供了强有力的工具。从早期的基于规则的方法，到后来的统计学习方法，再到当前深度学习技术的广泛应用，NLP领域经历了多次技术革新，文本表示作为NLP的核心技术之一，其研究和进步对于提升NLP系统的性能具有决定性的作用。
 
@@ -266,4 +281,3 @@ ELMo模型的主要优势在于其能够捕捉到词汇的多义性和上下文�
 [7] 赵京胜,宋梦雪,高祥,等.自然语言处理中的文本表示研究[J].软件学报,2022,33(01):102-128.DOI:10.13328/j.cnki.jos.006304.
 
 [8] 中文信息处理发展报告（2016）前言[C]//中文信息处理发展报告（2016）.中国中文信息学会;,2016:2-3.DOI:10.26914/c.cnkihy.2016.003326.
-

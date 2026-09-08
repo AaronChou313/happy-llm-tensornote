@@ -1,3 +1,15 @@
+---
+id: retool-code-guide
+title: ReTool 配套代码
+section: 第二部分 / 实战 / Agentic RL
+order: 840
+tags: [retool, code, agent]
+aliases: []
+prerequisites: [llm-reinforcement-learning]
+summary: 说明 ReTool 数据、沙箱、奖励、Rollout 与训练脚本的协作关系。
+status: stable
+---
+
 # ReTool 配套代码
 
 > **代码来源：** 本目录代码引用并整理自本章作者维护的 [agentic-rl-lab](https://github.com/KMnO4-zx/agentic-rl-lab) 中的 [05-retool](https://github.com/KMnO4-zx/agentic-rl-lab/tree/main/05-retool) 实现，当前版本适配 Happy-LLM 第八章与 PyTRIO 0.2.6。

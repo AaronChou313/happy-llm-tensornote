@@ -1,3 +1,15 @@
+---
+id: chapter6-practice-guide
+title: 第六章实践说明
+section: 第二部分 / 实战
+order: 610
+tags: [training, environment, deepspeed]
+aliases: [第六章实践指南]
+prerequisites: [llm-training-practice]
+summary: 说明第六章代码目录、依赖、数据准备和从小样本调试到完整训练的顺序。
+status: stable
+---
+
 # 第六章实践说明
 
 第六章聚焦如何基于 Transformers 生态完成大模型训练实践，正文主线为 Pretrain、SFT 与 PEFT 三部分，适合作为从手写模型实现过渡到工业界训练框架的桥梁章节。

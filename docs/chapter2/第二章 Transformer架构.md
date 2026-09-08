@@ -1,4 +1,19 @@
+---
+id: transformer-architecture
+title: 第二章 Transformer 架构
+section: 第一部分 / 理论基础
+order: 200
+tags: [transformer, attention, encoder, decoder]
+aliases: [Transformer 架构]
+prerequisites: [nlp-foundations]
+summary: 从注意力机制出发理解 Transformer 的 Encoder、Decoder、位置编码和数据流。
+status: stable
+---
+
 # 第二章 Transformer 架构
+
+> [!bridge]
+> 学习路径：[[nlp-foundations|第一章 NLP 基础概念]] → 本章 → [[attention-lab|缩放点积注意力实验]] → [[pretrained-language-models|第三章 预训练语言模型]]。
 
 ## 2.1 注意力机制
 
