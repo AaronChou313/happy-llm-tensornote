@@ -20,7 +20,16 @@ environment:
   files:
     - docs/chapter2/code/requirements.txt
     - docs/chapter5/code/requirements.txt
+    - docs/chapter5/code/requirements-base.txt
+    - docs/chapter5/code/requirements-tokenizer.txt
+    - docs/chapter5/code/requirements-training.txt
+    - docs/chapter5/code/requirements-distributed.txt
+    - docs/chapter5/code/requirements-notebook.txt
     - docs/chapter6/code/requirements.txt
+    - docs/chapter6/code/requirements-base.txt
+    - docs/chapter6/code/requirements-training.txt
+    - docs/chapter6/code/requirements-distributed.txt
+    - docs/chapter6/code/requirements-notebook.txt
     - docs/chapter7/RAG/requirements.txt
     - docs/chapter7/Agent/requirements.txt
     - docs/chapter8/requirements.txt

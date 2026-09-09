@@ -1,0 +1,90 @@
+schemaVersion: 1
+experiment:
+  id: happy-llm-chapter6
+  title: 第六章：大模型训练流程实践
+  description: 检查训练工程、执行 Notebook，并提供预训练与微调入口
+  workingDirectory: .
+  difficulty: heavy
+  estimatedMinutes: 2
+resources:
+  cpu: 2
+  memoryGB: 4
+  diskGB: 4
+environments:
+  base:
+    python: '3.11'
+    files: [requirements-base.txt]
+  training:
+    python: '3.11'
+    extends: base
+    files: [requirements-training.txt]
+  distributed:
+    python: '3.11'
+    extends: training
+    files: [requirements-distributed.txt]
+  notebook:
+    python: '3.11'
+    extends: training
+    files: [requirements-notebook.txt]
+presets:
+  workflow-smoke:
+    title: CPU 工程检查
+    environment: base
+    steps: [validate-workflow]
+  process-dataset:
+    title: 数据处理 Notebook
+    environment: notebook
+    steps: [process-notebook]
+  pretrain-notebook:
+    title: 预训练 Notebook
+    environment: notebook
+    steps: [pretrain-notebook]
+  pretrain-single:
+    title: 单卡预训练
+    environment: training
+    steps: [pretrain]
+defaultPreset: workflow-smoke
+steps:
+  validate-workflow:
+    title: 检查训练工程文件
+    runner: python
+    file: experiment_smoke.py
+    outputs: [.tensornote-runs/chapter6-smoke.json]
+  process-notebook:
+    title: 处理数据集
+    runner: notebook
+    file: process_dataset.ipynb
+    outputs: [.tensornote-runs/process-notebook-executed.ipynb]
+  pretrain-notebook:
+    title: Notebook 预训练
+    runner: notebook
+    file: pretrain.ipynb
+    outputs: [.tensornote-runs/pretrain-notebook-executed.ipynb]
+  pretrain:
+    title: Transformers 单卡预训练
+    runner: python
+    file: pretrain.py
+    args: [--output_dir, .tensornote-runs/pretrain, --do_train, --num_train_epochs, '1']
+    outputs: [.tensornote-runs/pretrain]
+artifacts:
+  smoke-report:
+    title: 工程检查报告
+    path: .tensornote-runs/chapter6-smoke.json
+    kind: json
+  pretrain-output:
+    title: 预训练输出
+    path: .tensornote-runs/pretrain
+    kind: model
+downloads:
+  pretrain-dataset:
+    title: Mobvoi Seq-Monkey general corpus
+    url: https://modelscope.cn/datasets/ddzhu123/seq-monkey
+    sizeMB: 1200
+    cache: autodl-tmp/dataset/pretrain_data
+    license: 请在下载前核对数据集页面许可
+  sft-dataset:
+    title: BelleGroup train 3.5M CN
+    url: https://huggingface.co/datasets/BelleGroup/train_3.5M_CN
+    sizeMB: 3500
+    cache: autodl-tmp/dataset/sft_data/BelleGroup
+    license: 请在下载前核对数据集页面许可

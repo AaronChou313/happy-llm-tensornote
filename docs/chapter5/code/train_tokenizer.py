@@ -1,4 +1,5 @@
 import random
+import argparse
 import json
 import os
 from transformers import AutoTokenizer, PreTrainedTokenizerFast
@@ -172,19 +173,21 @@ def eval_tokenizer(tokenizer_path: str) -> None:
     print("Special tokens preserved:", decoded == test_text)
 
 def main():
-    # 配置路径
-    data_path = "your data path"
-    save_dir = "tokenizer_k"
+    parser = argparse.ArgumentParser(description="Train the Happy-LLM tokenizer")
+    parser.add_argument("--data-path", default="smoke-data.jsonl", help="JSONL input with one text field per line")
+    parser.add_argument("--save-dir", default="tokenizer_k", help="Output tokenizer directory")
+    parser.add_argument("--vocab-size", type=int, default=6144, help="Target vocabulary size")
+    args = parser.parse_args()
 
     # 训练tokenizer
     train_tokenizer(
-        data_path=data_path,
-        save_dir=save_dir,
-        vocab_size=6144
+        data_path=args.data_path,
+        save_dir=args.save_dir,
+        vocab_size=args.vocab_size
     )
 
     # 评估tokenizer
-    eval_tokenizer(save_dir)
+    eval_tokenizer(args.save_dir)
 
 if __name__ == '__main__':
     main()

@@ -907,7 +907,7 @@ class Transformer(nn.Module):
 
 经过上述步骤，我们就可以从零“手搓”一个完整的、可计算的 Transformer 模型。限于本书主要聚焦在 LLM，在本章，我们就不再详细讲述如何训练 Transformer 模型了；在后文中，我们将类似地从零“手搓”一个 LLaMA 模型，并手把手带大家训练一个属于自己的 Tiny LLaMA。
 
-```python exec lab="Transformer Experiment" cell="1" title="准备数据" difficulty="basic"
+```python exec lab="transformer-experiment" cell="1" title="准备数据" difficulty="basic"
 import torch
 import math
 from torch import nn
@@ -927,7 +927,7 @@ class ModelArgs:
     n_layer: int
 ```
 
-```python exec lab="Transformer Experiment" cell="2" title="多头注意力" difficulty="basic"
+```python exec lab="transformer-experiment" cell="2" title="多头注意力" difficulty="basic"
 class MultiHeadAttention(nn.Module):
 
     def __init__(self, args: ModelArgs, is_causal=False):
@@ -1008,7 +1008,7 @@ class MultiHeadAttention(nn.Module):
         return output
 ```
 
-```python exec lab="Transformer Experiment" cell="3" title="层归一化" difficulty="basic"
+```python exec lab="transformer-experiment" cell="3" title="层归一化" difficulty="basic"
 class LayerNorm(nn.Module):
     ''' Layer Norm 层'''
     def __init__(self, features, eps=1e-6):
@@ -1026,7 +1026,7 @@ class LayerNorm(nn.Module):
         return self.a_2 * (x - mean) / (std + self.eps) + self.b_2
 ```
 
-```python exec lab="Transformer Experiment" cell="4" title="前馈神经网络" difficulty="basic"
+```python exec lab="transformer-experiment" cell="4" title="前馈神经网络" difficulty="basic"
 class MLP(nn.Module):
     '''前馈神经网络'''
     def __init__(self, dim: int, hidden_dim: int, dropout: float):
@@ -1045,7 +1045,7 @@ class MLP(nn.Module):
         return self.dropout(self.w2(F.relu(self.w1(x))))
 ```
 
-```python exec lab="Transformer Experiment" cell="5" title="编码器" difficulty="basic"
+```python exec lab="transformer-experiment" cell="5" title="编码器" difficulty="basic"
 class EncoderLayer(nn.Module):
     def __init__(self, args):
         super().__init__()
@@ -1080,7 +1080,7 @@ class Encoder(nn.Module):
         return self.norm(x)
 ```
 
-```python exec lab="Transformer Experiment" cell="6" title="解码器" difficulty="basic"
+```python exec lab="transformer-experiment" cell="6" title="解码器" difficulty="basic"
 class DecoderLayer(nn.Module):
     '''Decoder 层'''
     def __init__(self, args):
@@ -1123,7 +1123,7 @@ class Decoder(nn.Module):
         return self.norm(x)
 ```
 
-```python exec lab="Transformer Experiment" cell="7" title="位置编码" difficulty="basic"
+```python exec lab="transformer-experiment" cell="7" title="位置编码" difficulty="basic"
 class PositionalEncoding(nn.Module):
     '''位置编码模块'''
 
@@ -1151,7 +1151,7 @@ class PositionalEncoding(nn.Module):
         return x
 ```
 
-```python exec lab="Transformer Experiment" cell="8" title="整体模型" difficulty="basic"
+```python exec lab="transformer-experiment" cell="8" title="整体模型" difficulty="basic"
 class Transformer(nn.Module):
     '''整体模型'''
 
@@ -1239,7 +1239,7 @@ class Transformer(nn.Module):
         return logits, loss
 ```
 
-```python exec lab="Transformer Experiment" cell="9" title="主函数" difficulty="basic"
+```python exec lab="transformer-experiment" cell="9" title="主函数" difficulty="basic"
 def main():
     args = ModelArgs(100, 10, 100, 0.1, 512, 1000, 1000, 2)
     text = "我喜欢快乐地学习大模型"
@@ -1261,7 +1261,7 @@ def main():
     print(output)
 ```
 
-```python exec lab="Transformer Experiment" cell="10" title="开始运行" difficulty="basic"
+```python exec lab="transformer-experiment" cell="10" title="开始运行" difficulty="basic"
 print("开始")
 main()
 ```

@@ -1,0 +1,92 @@
+schemaVersion: 1
+experiment:
+  id: happy-llm-chapter5
+  title: 第五章：动手搭建大模型
+  description: 从轻量 Tokenizer 验证到单卡与分布式预训练
+  workingDirectory: .
+  difficulty: heavy
+  estimatedMinutes: 5
+resources:
+  cpu: 2
+  memoryGB: 4
+  diskGB: 2
+environments:
+  base:
+    python: '3.11'
+    files: [requirements-base.txt]
+  tokenizer:
+    python: '3.11'
+    extends: base
+    files: [requirements-tokenizer.txt]
+  training:
+    python: '3.11'
+    extends: base
+    files: [requirements-training.txt]
+  distributed:
+    python: '3.11'
+    extends: training
+    files: [requirements-distributed.txt]
+  notebook:
+    python: '3.11'
+    extends: training
+    files: [requirements-notebook.txt]
+parameters:
+  vocab-size:
+    type: integer
+    label: Vocabulary size
+    default: 512
+    minimum: 256
+    maximum: 32000
+  epochs:
+    type: integer
+    label: Epochs
+    default: 1
+    minimum: 1
+    maximum: 100
+presets:
+  tokenizer-cpu:
+    title: CPU Tokenizer smoke
+    environment: tokenizer
+    steps: [train-tokenizer]
+    parameters: { vocab-size: 512 }
+  pretrain-single:
+    title: 单卡预训练
+    environment: training
+    steps: [pretrain]
+    parameters: { epochs: 1 }
+  pretrain-ddp:
+    title: 双卡分布式预训练
+    environment: distributed
+    steps: [pretrain-ddp]
+    parameters: { epochs: 1 }
+defaultPreset: tokenizer-cpu
+steps:
+  train-tokenizer:
+    title: 训练轻量 Tokenizer
+    runner: python
+    file: train_tokenizer.py
+    args: [--data-path, smoke-data.jsonl, --save-dir, .tensornote-runs/tokenizer-smoke, --vocab-size, '${parameters.vocab-size}']
+    outputs: [.tensornote-runs/tokenizer-smoke]
+  pretrain:
+    title: 单进程预训练
+    runner: python
+    file: ddp_pretrain.py
+    args: [--epochs, '${parameters.epochs}', --data_path, seq_monkey_datawhale.jsonl, --out_dir, .tensornote-runs/pretrain-single]
+    outputs: [.tensornote-runs/pretrain-single]
+  pretrain-ddp:
+    title: 双进程预训练
+    runner: torchrun
+    file: ddp_pretrain.py
+    processes: 2
+    nodes: 1
+    args: [--epochs, '${parameters.epochs}', --data_path, seq_monkey_datawhale.jsonl, --out_dir, .tensornote-runs/pretrain-ddp]
+    outputs: [.tensornote-runs/pretrain-ddp]
+artifacts:
+  tokenizer:
+    title: Tokenizer smoke
+    path: .tensornote-runs/tokenizer-smoke
+    kind: directory
+  checkpoint:
+    title: Training checkpoints
+    path: .tensornote-runs/pretrain-single
+    kind: model
