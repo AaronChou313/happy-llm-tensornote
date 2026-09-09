@@ -12,6 +12,9 @@ status: stable
 
 # OPD 配套代码
 
+> [!experiment]
+> 请从[[llm-reinforcement-learning|第八章正文]]的实验面板选择 `opd-sync-minimal` 或 `opd-async-minimal`。最小预设仍会下载 DeepMath 样本，并调用 Student 与 Teacher 的远端训练服务。请先登录 PyTRIO 并核对费用；TensorNote 预设将 SwanLab 关闭，避免意外上传日志。
+
 > **代码来源：** 本目录代码引用并整理自本章作者维护的 [agentic-rl-lab](https://github.com/KMnO4-zx/agentic-rl-lab) 中的 [02-opd](https://github.com/KMnO4-zx/agentic-rl-lab/tree/main/02-opd) 实现，当前版本适配 Happy-LLM 第八章与 PyTRIO 0.2.6。
 
 本目录对应正文 8.2 节，以 DeepMath-103K prompt 为例实现完整的 On-Policy Distillation。Student 生成回答，Teacher 对同一条 Student 轨迹计算逐 token logprob，再由 reverse KL 构造训练信号。

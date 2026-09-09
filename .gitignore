@@ -166,3 +166,8 @@ node_modules/
 
 # TensorNote runtime outputs
 .tensornote-runs/
+autodl-tmp/
+storage/
+docs/chapter5/code/dataset/
+docs/chapter8/search-r1/datasets/
+docs/chapter8/retool/datasets/

@@ -12,6 +12,9 @@ status: stable
 
 # Search-R1 配套代码
 
+> [!experiment]
+> 请从[[llm-reinforcement-learning|第八章正文]]的实验面板选择 `search-r1-minimal`。该预设会先下载并整理数据，再使用无需密钥但需要联网的 Wikipedia 搜索后端做最小训练。PyTRIO 远端训练仍可能产生费用，运行前请登录并检查预算。
+
 > **代码来源：** 本目录代码引用并整理自本章作者维护的 [agentic-rl-lab](https://github.com/KMnO4-zx/agentic-rl-lab) 中的 [03-search-r1](https://github.com/KMnO4-zx/agentic-rl-lab/tree/main/03-search-r1) 实现，当前版本适配 Happy-LLM 第八章与 PyTRIO 0.2.6。
 
 本目录对应正文 8.3 节。代码保留数据、工具协议、搜索环境、多轮 rollout、reward、训练和评测的边界，便于观察 Agentic RL 如何在普通 GRPO 训练循环上增加环境交互。

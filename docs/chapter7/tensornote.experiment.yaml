@@ -1,0 +1,92 @@
+schemaVersion: 1
+experiment:
+  id: chapter7-rag-and-agent
+  title: 第七章：RAG 与 Agent 应用
+  description: >-
+    先用完全离线的 smoke 理解检索与工具调用，再按需连接兼容 OpenAI API 的服务。
+    密钥只从受信任运行环境读取，不写入仓库或参数。
+  workingDirectory: .
+  difficulty: medium
+  estimatedMinutes: 2
+resources:
+  cpu: 2
+  memoryGB: 4
+  diskGB: 2
+environments:
+  smoke:
+    python: "3.11"
+    files: []
+  rag:
+    python: "3.11"
+    files: [RAG/requirements.txt]
+  agent:
+    python: "3.11"
+    files: [Agent/requirements.txt]
+parameters:
+  question:
+    type: string
+    label: RAG 问题
+    default: RAG 的原理是什么？
+  prompt:
+    type: string
+    label: Agent 任务
+    default: 请计算 18 加 24，并说明调用了什么工具。
+  chat-model:
+    type: string
+    label: 对话模型
+    default: Qwen/Qwen2.5-32B-Instruct
+presets:
+  rag-smoke:
+    title: 00 · 离线 RAG 原理实验
+    environment: smoke
+    steps: [rag-smoke]
+  agent-smoke:
+    title: 01 · 离线 Agent 工具实验
+    environment: smoke
+    steps: [agent-smoke]
+  rag-api:
+    title: 02 · API RAG 完整流程
+    environment: rag
+    steps: [rag-api]
+  agent-api:
+    title: 03 · API Agent 单轮任务
+    environment: agent
+    steps: [agent-api]
+defaultPreset: rag-smoke
+steps:
+  rag-smoke:
+    title: 验证检索排序与 RAG 工程
+    runner: python
+    file: experiment_smoke.py
+    args: [--module, rag, --output, .tensornote-runs/rag-smoke.json]
+    outputs: [.tensornote-runs/rag-smoke.json]
+  agent-smoke:
+    title: 验证本地工具与 Agent 工程
+    runner: python
+    file: experiment_smoke.py
+    args: [--module, agent, --output, .tensornote-runs/agent-smoke.json]
+    outputs: [.tensornote-runs/agent-smoke.json]
+  rag-api:
+    title: 构建向量库并回答问题
+    runner: python
+    file: RAG/demo.py
+    args: [--data-dir, RAG/data, --storage-dir, .tensornote-runs/rag-storage, --question, "${parameters.question}", --chat-model, "${parameters.chat-model}"]
+    outputs: [.tensornote-runs/rag-storage]
+  agent-api:
+    title: 运行工具调用 Agent
+    runner: python
+    file: Agent/demo.py
+    args: [--prompt, "${parameters.prompt}", --model, "${parameters.chat-model}"]
+artifacts:
+  rag-smoke-report:
+    title: RAG 离线检查报告
+    path: .tensornote-runs/rag-smoke.json
+    kind: json
+  agent-smoke-report:
+    title: Agent 离线检查报告
+    path: .tensornote-runs/agent-smoke.json
+    kind: json
+  rag-storage:
+    title: RAG 向量库
+    path: .tensornote-runs/rag-storage
+    kind: directory

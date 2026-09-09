@@ -167,6 +167,13 @@ def train_epoch(epoch):
             torch.save(state_dict, ckp)
             model.train()
 
+    # 小数据集可能达不到 save_interval；每个 epoch 结束仍保存可继续使用的检查点。
+    model.eval()
+    ckp = f'{args.save_dir}/pretrain_{lm_config.dim}_{lm_config.n_layers}_{lm_config.vocab_size}.pth'
+    state_dict = model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict()
+    torch.save(state_dict, ckp)
+    model.train()
+
 
 def init_model():
     """
@@ -244,7 +251,7 @@ if __name__ == "__main__":
     parser.add_argument("--save_interval", type=int, default=1000, help="模型保存间隔")
     
     # 多GPU训练参数
-    parser.add_argument("--gpus", type=str, default='0,1,2,3,4,5,6,7', help="使用的GPU ID，用逗号分隔 (例如: '0,1,2')")
+    parser.add_argument("--gpus", type=str, default=None, help="可选：逗号分隔的 GPU ID；默认尊重运行环境分配")
 
     args = parser.parse_args()
 

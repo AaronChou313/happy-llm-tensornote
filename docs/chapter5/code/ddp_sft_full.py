@@ -118,6 +118,13 @@ def train_epoch(epoch):
             torch.save(state_dict, ckp)
             model.train()
 
+    # 小数据集可能达不到 save_interval；每个 epoch 结束仍保存最终检查点。
+    model.eval()
+    ckp = f'{args.save_dir}/sft_dim{lm_config.dim}_layers{lm_config.n_layers}_vocab_size{lm_config.vocab_size}.pth'
+    state_dict = model.module.state_dict() if isinstance(model, torch.nn.DataParallel) else model.state_dict()
+    torch.save(state_dict, ckp)
+    model.train()
+
 
 def init_model():
     """初始化模型"""
@@ -134,8 +141,7 @@ def init_model():
     model = Transformer(lm_config)
 
     # 加载预训练权重
-    ckp = './base_model_215M/pretrain_1024_18_6144.pth'
-    state_dict = torch.load(ckp, map_location=args.device)
+    state_dict = torch.load(args.checkpoint, map_location=args.device)
     unwanted_prefix = '_orig_mod.'
     for k, v in list(state_dict.items()):
         if k.startswith(unwanted_prefix):
@@ -164,13 +170,14 @@ if __name__ == "__main__":
     parser.add_argument("--use_swanlab", action="store_true", help="是否使用SwanLab进行实验跟踪")
     parser.add_argument("--num_workers", type=int, default=8, help="数据加载的工作进程数")
     parser.add_argument("--data_path", type=str, default="./BelleGroup_sft.jsonl", help="训练数据路径")
+    parser.add_argument("--checkpoint", type=str, default="./base_model_215M/pretrain_1024_18_6144.pth", help="预训练检查点路径")
     parser.add_argument("--accumulation_steps", type=int, default=8, help="梯度累积步数")
     parser.add_argument("--grad_clip", type=float, default=1.0, help="梯度裁剪阈值")
     parser.add_argument("--warmup_iters", type=int, default=0, help="预热迭代次数")
     parser.add_argument("--log_interval", type=int, default=100, help="日志记录间隔")
     parser.add_argument("--save_interval", type=int, default=1000, help="模型保存间隔")
     # 添加多卡参数
-    parser.add_argument("--gpus", type=str, default='0,1,2,3,4,5,6,7', help="逗号分隔的GPU ID (例如 '0,1,2')")
+    parser.add_argument("--gpus", type=str, default=None, help="可选：逗号分隔的 GPU ID；默认尊重运行环境分配")
 
     args = parser.parse_args()
 

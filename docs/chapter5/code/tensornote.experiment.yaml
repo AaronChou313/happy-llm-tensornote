@@ -1,92 +1,246 @@
 schemaVersion: 1
+
 experiment:
-  id: happy-llm-chapter5
-  title: 第五章：动手搭建大模型
-  description: 从轻量 Tokenizer 验证到单卡与分布式预训练
+  id: chapter5-build-an-llm
+  title: 第五章：从零训练语言模型
+  description: >-
+    从工程检查和小型分词器开始，逐步进入预训练、全参数指令微调与模型体验。
+    默认预设只执行离线检查；训练预设需要用户自行准备数据并显式启动。
   workingDirectory: .
   difficulty: heavy
-  estimatedMinutes: 5
+  estimatedMinutes: 2
+
 resources:
   cpu: 2
   memoryGB: 4
-  diskGB: 2
+  diskGB: 12
+  gpu:
+    count: 1
+    memoryGB: 8
+    optional: true
+
 environments:
+  smoke:
+    python: "3.11"
+    files: []
   base:
-    python: '3.11'
-    files: [requirements-base.txt]
+    python: "3.11"
+    files:
+      - requirements-base.txt
   tokenizer:
-    python: '3.11'
+    python: "3.11"
     extends: base
-    files: [requirements-tokenizer.txt]
+    files:
+      - requirements-tokenizer.txt
   training:
-    python: '3.11'
-    extends: base
-    files: [requirements-training.txt]
-  distributed:
-    python: '3.11'
-    extends: training
-    files: [requirements-distributed.txt]
-  notebook:
-    python: '3.11'
-    extends: training
-    files: [requirements-notebook.txt]
+    python: "3.11"
+    extends: tokenizer
+    files:
+      - requirements-training.txt
+
 parameters:
   vocab-size:
     type: integer
-    label: Vocabulary size
-    default: 512
-    minimum: 256
-    maximum: 32000
+    label: 词表大小
+    default: 6400
+    minimum: 512
+    maximum: 65536
   epochs:
     type: integer
-    label: Epochs
+    label: 训练轮数
     default: 1
     minimum: 1
     maximum: 100
+  batch-size:
+    type: integer
+    label: 批大小
+    default: 8
+    minimum: 1
+    maximum: 1024
+  pretrain-data:
+    type: path
+    label: 预训练 JSONL
+    default: ./dataset/pretrain_hq.jsonl
+  sft-data:
+    type: path
+    label: 指令微调 JSONL
+    default: ./dataset/sft_mini_512.jsonl
+  raw-pretrain-data:
+    type: path
+    label: 原始预训练 JSONL
+    default: ./dataset/raw-pretrain.jsonl
+  raw-sft-data:
+    type: path
+    label: 原始 SFT JSONL
+    default: ./dataset/raw-sft.jsonl
+  checkpoint:
+    type: path
+    label: 模型检查点
+    default: .tensornote-runs/pretrain/pretrain_1024_18_6144.pth
+  prompt:
+    type: string
+    label: 生成提示词
+    default: 你好，请介绍一下你自己。
+
 presets:
+  project-smoke:
+    title: 00 · 离线工程检查
+    environment: smoke
+    steps:
+      - validate-project
   tokenizer-cpu:
-    title: CPU Tokenizer smoke
+    title: 01 · CPU 训练小型分词器
     environment: tokenizer
-    steps: [train-tokenizer]
-    parameters: { vocab-size: 512 }
+    parameters:
+      vocab-size: 512
+    steps:
+      - train-tokenizer
+  prepare-data:
+    title: 02 · 整理训练数据
+    environment: smoke
+    steps:
+      - prepare-data
   pretrain-single:
-    title: 单卡预训练
+    title: 03 · 单机预训练
     environment: training
-    steps: [pretrain]
-    parameters: { epochs: 1 }
-  pretrain-ddp:
-    title: 双卡分布式预训练
-    environment: distributed
-    steps: [pretrain-ddp]
-    parameters: { epochs: 1 }
-defaultPreset: tokenizer-cpu
+    steps:
+      - pretrain
+  sft-single:
+    title: 04 · 全参数指令微调
+    environment: training
+    steps:
+      - sft
+  sample-model:
+    title: 05 · 使用检查点生成文本
+    environment: training
+    steps:
+      - sample-model
+  export-model:
+    title: 06 · 导出 Transformers 模型
+    environment: training
+    steps:
+      - export-model
+
+defaultPreset: project-smoke
+
 steps:
+  validate-project:
+    title: 检查第五章工程
+    runner: python
+    file: experiment_smoke.py
+    outputs:
+      - .tensornote-runs/chapter5-smoke.json
   train-tokenizer:
-    title: 训练轻量 Tokenizer
+    title: 训练演示分词器
     runner: python
     file: train_tokenizer.py
-    args: [--data-path, smoke-data.jsonl, --save-dir, .tensornote-runs/tokenizer-smoke, --vocab-size, '${parameters.vocab-size}']
-    outputs: [.tensornote-runs/tokenizer-smoke]
+    args:
+      - --data-path
+      - smoke-data.jsonl
+      - --save-dir
+      - .tensornote-runs/tokenizer
+      - --vocab-size
+      - ${parameters.vocab-size}
+    outputs:
+      - .tensornote-runs/tokenizer
+  prepare-data:
+    title: 规范化预训练与 SFT 数据
+    runner: python
+    file: deal_dataset.py
+    args: [--pretrain-input, "${parameters.raw-pretrain-data}", --sft-input, "${parameters.raw-sft-data}", --output-dir, .tensornote-runs/dataset]
+    outputs:
+      - .tensornote-runs/dataset
   pretrain:
-    title: 单进程预训练
+    title: 预训练语言模型
     runner: python
     file: ddp_pretrain.py
-    args: [--epochs, '${parameters.epochs}', --data_path, seq_monkey_datawhale.jsonl, --out_dir, .tensornote-runs/pretrain-single]
-    outputs: [.tensornote-runs/pretrain-single]
-  pretrain-ddp:
-    title: 双进程预训练
-    runner: torchrun
-    file: ddp_pretrain.py
-    processes: 2
-    nodes: 1
-    args: [--epochs, '${parameters.epochs}', --data_path, seq_monkey_datawhale.jsonl, --out_dir, .tensornote-runs/pretrain-ddp]
-    outputs: [.tensornote-runs/pretrain-ddp]
+    args:
+      - --data_path
+      - ${parameters.pretrain-data}
+      - --out_dir
+      - .tensornote-runs/pretrain
+      - --epochs
+      - ${parameters.epochs}
+      - --batch_size
+      - ${parameters.batch-size}
+      - --device
+      - cuda
+      - --dtype
+      - bfloat16
+      - --num_workers
+      - "2"
+    outputs:
+      - .tensornote-runs/pretrain
+  sft:
+    title: 全参数指令微调
+    runner: python
+    file: ddp_sft_full.py
+    args:
+      - --data_path
+      - ${parameters.sft-data}
+      - --out_dir
+      - .tensornote-runs/sft
+      - --epochs
+      - ${parameters.epochs}
+      - --batch_size
+      - ${parameters.batch-size}
+      - --device
+      - cuda
+      - --dtype
+      - bfloat16
+      - --num_workers
+      - "2"
+      - --checkpoint
+      - ${parameters.checkpoint}
+    outputs:
+      - .tensornote-runs/sft
+  sample-model:
+    title: 从检查点生成一条文本
+    runner: python
+    file: model_sample.py
+    args: [--checkpoint, "${parameters.checkpoint}", --tokenizer-path, tokenizer_k, --mode, sft, --prompt, "${parameters.prompt}", --max-new-tokens, "128"]
+  export-model:
+    title: 导出 Hugging Face Transformers 目录
+    runner: python
+    file: export_model.py
+    args: [--checkpoint, "${parameters.checkpoint}", --tokenizer-path, tokenizer_k, --output-dir, .tensornote-runs/exported-model]
+    outputs:
+      - .tensornote-runs/exported-model
+
 artifacts:
-  tokenizer:
-    title: Tokenizer smoke
-    path: .tensornote-runs/tokenizer-smoke
+  smoke-report:
+    title: 工程检查报告
+    path: .tensornote-runs/chapter5-smoke.json
+    kind: json
+  tokenizer-output:
+    title: 演示分词器
+    path: .tensornote-runs/tokenizer
     kind: directory
-  checkpoint:
-    title: Training checkpoints
-    path: .tensornote-runs/pretrain-single
+  prepared-data:
+    title: 规范化训练数据
+    path: .tensornote-runs/dataset
+    kind: directory
+  pretrain-output:
+    title: 预训练检查点
+    path: .tensornote-runs/pretrain
     kind: model
+  sft-output:
+    title: SFT 检查点
+    path: .tensornote-runs/sft
+    kind: model
+  exported-model:
+    title: Transformers 模型目录
+    path: .tensornote-runs/exported-model
+    kind: model
+
+downloads:
+  pretrain-dataset:
+    title: Seq-Monkey 预训练数据（可选）
+    url: https://www.modelscope.cn/datasets/baicai003/Llama3-Chinese-dataset/files
+    cache: dataset/
+    license: 请在下载前核对数据集页面许可
+  sft-dataset:
+    title: Belle 指令微调数据（可选）
+    url: https://huggingface.co/datasets/BelleGroup/train_3.5M_CN
+    cache: dataset/
+    license: 请在下载前核对数据集页面许可

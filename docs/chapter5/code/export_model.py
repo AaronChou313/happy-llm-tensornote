@@ -1,3 +1,4 @@
+import argparse
 import torch
 import warnings
 from transformers import AutoTokenizer
@@ -47,15 +48,19 @@ def export_model(tokenizer_path, model_config, model_ckpt_path, save_directory):
 
 
 if __name__ == '__main__':
-    # 示例用法
+    parser = argparse.ArgumentParser(description="将第五章 PyTorch 检查点导出为 Transformers 模型")
+    parser.add_argument("--tokenizer-path", default="./tokenizer_k/")
+    parser.add_argument("--checkpoint", required=True)
+    parser.add_argument("--output-dir", default=".tensornote-runs/exported-model")
+    args = parser.parse_args()
     config = ModelConfig(
         dim=1024,
         n_layers=18,
     )
 
     export_model(
-        tokenizer_path='./tokenizer_k/',
+        tokenizer_path=args.tokenizer_path,
         model_config=config,
-        model_ckpt_path='./BeelGroup_sft_model_215M/sft_dim1024_layers18_vocab_size6144.pth',
-        save_directory="k-model-215M"
+        model_ckpt_path=args.checkpoint,
+        save_directory=args.output_dir
     )

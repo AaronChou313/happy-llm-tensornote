@@ -132,29 +132,16 @@ class TextGenerator:
         return generated_texts  # 返回生成的文本样本
     
 if __name__ == "__main__":
-    print("------------------- Pretrain Sample ------------------- \n")
-
-    pretrain_prompt_datas = [
-        '<|im_start|>北京大学是',
-        '<|im_start|>中国矿业大学（北京）地球科学与测绘工程学院',
-    ]
-
-    generator = TextGenerator(checkpoint='./base_model_215M/pretrain_1024_18_6144.pth')  # 初始化生成器
-    for i in range(len(pretrain_prompt_datas)):
-        samples = generator.pretrain_sample(start=pretrain_prompt_datas[i], num_samples=1, max_new_tokens=120, temperature=0.75)
-        print(f"\nSample {i+1}:\n{pretrain_prompt_datas[i]}{samples[0]}\n{'-'*20}")  # 打印生成的样本并用分隔线分割
-
-    print("\n ------------------- SFT Sample ------------------- \n")
-
-    sft_prompt_datas = [
-        '你好呀',
-        "中国的首都是哪里？",
-        "1+12等于多少？",
-        "你是谁？"
-    ]
-    generator = TextGenerator(checkpoint='./sft_model_215M/sft_dim1024_layers18_vocab_size6144.pth')  # 初始化生成器
-    for i in range(len(sft_prompt_datas)):
-        samples = generator.sft_sample(start=sft_prompt_datas[i], num_samples=1, max_new_tokens=128, temperature=0.6)
-        print(f"\nSample {i+1}:\nQuestion: {sft_prompt_datas[i]} \nAI answer: {samples[0]}\n{'-'*20}")  # 打印生成的样本并用分隔线分割
+    parser = argparse.ArgumentParser(description="使用第五章检查点生成一条文本")
+    parser.add_argument("--checkpoint", required=True)
+    parser.add_argument("--tokenizer-path", default="./tokenizer_k/")
+    parser.add_argument("--mode", choices=("pretrain", "sft"), default="sft")
+    parser.add_argument("--prompt", default="你好，请介绍一下你自己。")
+    parser.add_argument("--max-new-tokens", type=int, default=128)
+    args = parser.parse_args()
+    generator = TextGenerator(checkpoint=args.checkpoint, tokenizer_model_path=args.tokenizer_path)
+    sample_fn = generator.pretrain_sample if args.mode == "pretrain" else generator.sft_sample
+    sample = sample_fn(start=args.prompt, num_samples=1, max_new_tokens=args.max_new_tokens)[0]
+    print(sample)
 
     

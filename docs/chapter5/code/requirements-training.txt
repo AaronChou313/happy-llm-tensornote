@@ -1,2 +1,5 @@
 torch==2.4.0
 datasets==2.16.1
+pandas==2.2.3
+transformers==4.44.0
+swanlab>=0.3

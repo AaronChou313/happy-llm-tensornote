@@ -1,62 +1,122 @@
 schemaVersion: 1
 experiment:
-  id: happy-llm-chapter6
-  title: 第六章：大模型训练流程实践
-  description: 检查训练工程、执行 Notebook，并提供预训练与微调入口
+  id: chapter6-training-practice
+  title: 第六章：Transformers 训练全流程
+  description: >-
+    从离线工程检查、数据处理 Notebook，逐步进入单卡或双卡预训练与 SFT。
+    默认预设不联网、不训练；模型与数据下载由 TensorNote 在运行前明确展示。
   workingDirectory: .
   difficulty: heavy
   estimatedMinutes: 2
 resources:
-  cpu: 2
-  memoryGB: 4
-  diskGB: 4
+  cpu: 4
+  memoryGB: 12
+  diskGB: 30
+  gpu:
+    optional: true
+    count: 1
+    memoryGB: 16
 environments:
+  smoke:
+    python: "3.11"
+    files: []
   base:
-    python: '3.11'
+    python: "3.11"
     files: [requirements-base.txt]
   training:
-    python: '3.11'
+    python: "3.11"
     extends: base
     files: [requirements-training.txt]
   distributed:
-    python: '3.11'
+    python: "3.11"
     extends: training
     files: [requirements-distributed.txt]
   notebook:
-    python: '3.11'
+    python: "3.11"
     extends: training
     files: [requirements-notebook.txt]
+parameters:
+  config-path:
+    type: path
+    label: 模型配置目录
+    default: autodl-tmp/qwen-1.5b
+  tokenizer-path:
+    type: path
+    label: 分词器目录
+    default: autodl-tmp/qwen-1.5b
+  model-path:
+    type: path
+    label: 预训练模型目录
+    default: .tensornote-runs/pretrain
+  pretrain-data:
+    type: path
+    label: 预训练 JSONL
+    default: autodl-tmp/dataset/pretrain_data/pretrain.jsonl
+  sft-data:
+    type: path
+    label: SFT JSONL
+    default: autodl-tmp/dataset/sft_data/BelleGroup/train_3.5M_CN.json
+  epochs:
+    type: integer
+    label: 训练轮数
+    default: 1
+    minimum: 1
+    maximum: 100
+  batch-size:
+    type: integer
+    label: 每设备批大小
+    default: 1
+    minimum: 1
+    maximum: 128
+  block-size:
+    type: integer
+    label: 文本块长度
+    default: 1024
+    minimum: 128
+    maximum: 8192
 presets:
   workflow-smoke:
-    title: CPU 工程检查
-    environment: base
+    title: 00 · 离线工程检查
+    environment: smoke
     steps: [validate-workflow]
   process-dataset:
-    title: 数据处理 Notebook
+    title: 01 · 数据处理 Notebook
     environment: notebook
     steps: [process-notebook]
   pretrain-notebook:
-    title: 预训练 Notebook
+    title: 02 · 预训练 Notebook
     environment: notebook
     steps: [pretrain-notebook]
   pretrain-single:
-    title: 单卡预训练
+    title: 03 · 单卡预训练
     environment: training
     steps: [pretrain]
+  pretrain-two-gpu:
+    title: 04 · 双卡 ZeRO-2 预训练
+    environment: distributed
+    steps: [pretrain-distributed]
+  sft-single:
+    title: 05 · 单卡 SFT
+    environment: training
+    steps: [sft]
+  sft-two-gpu:
+    title: 06 · 双卡 ZeRO-2 SFT
+    environment: distributed
+    steps: [sft-distributed]
 defaultPreset: workflow-smoke
 steps:
   validate-workflow:
-    title: 检查训练工程文件
+    title: 检查第六章训练工程
     runner: python
     file: experiment_smoke.py
     outputs: [.tensornote-runs/chapter6-smoke.json]
   process-notebook:
-    title: 处理数据集
+    title: 处理训练数据
     runner: notebook
     file: process_dataset.ipynb
     outputs: [.tensornote-runs/process-notebook-executed.ipynb]
   pretrain-notebook:
-    title: Notebook 预训练
+    title: Notebook 预训练演示
     runner: notebook
     file: pretrain.ipynb
     outputs: [.tensornote-runs/pretrain-notebook-executed.ipynb]
@@ -64,27 +124,54 @@ steps:
     title: Transformers 单卡预训练
     runner: python
     file: pretrain.py
-    args: [--output_dir, .tensornote-runs/pretrain, --do_train, --num_train_epochs, '1']
+    args: [--config_name, "${parameters.config-path}", --tokenizer_name, "${parameters.tokenizer-path}", --train_files, "${parameters.pretrain-data}", --block_size, "${parameters.block-size}", --output_dir, .tensornote-runs/pretrain, --do_train, --num_train_epochs, "${parameters.epochs}", --per_device_train_batch_size, "${parameters.batch-size}", --report_to, none, --bf16, "True", --save_strategy, epoch]
     outputs: [.tensornote-runs/pretrain]
+  pretrain-distributed:
+    title: 双卡 DeepSpeed ZeRO-2 预训练
+    runner: torchrun
+    file: pretrain.py
+    processes: 2
+    args: [--config_name, "${parameters.config-path}", --tokenizer_name, "${parameters.tokenizer-path}", --train_files, "${parameters.pretrain-data}", --block_size, "${parameters.block-size}", --output_dir, .tensornote-runs/pretrain-two-gpu, --do_train, --num_train_epochs, "${parameters.epochs}", --per_device_train_batch_size, "${parameters.batch-size}", --deepspeed, ds_config_zero2.json, --report_to, none, --bf16, "True"]
+    outputs: [.tensornote-runs/pretrain-two-gpu]
+  sft:
+    title: Transformers 单卡 SFT
+    runner: python
+    file: finetune.py
+    args: [--model_name_or_path, "${parameters.model-path}", --train_files, "${parameters.sft-data}", --block_size, "${parameters.block-size}", --output_dir, .tensornote-runs/sft, --do_train, --num_train_epochs, "${parameters.epochs}", --per_device_train_batch_size, "${parameters.batch-size}", --report_to, none, --bf16, "True", --save_strategy, epoch]
+    outputs: [.tensornote-runs/sft]
+  sft-distributed:
+    title: 双卡 DeepSpeed ZeRO-2 SFT
+    runner: torchrun
+    file: finetune.py
+    processes: 2
+    args: [--model_name_or_path, "${parameters.model-path}", --train_files, "${parameters.sft-data}", --block_size, "${parameters.block-size}", --output_dir, .tensornote-runs/sft-two-gpu, --do_train, --num_train_epochs, "${parameters.epochs}", --per_device_train_batch_size, "${parameters.batch-size}", --deepspeed, ds_config_zero2.json, --report_to, none, --bf16, "True"]
+    outputs: [.tensornote-runs/sft-two-gpu]
 artifacts:
   smoke-report:
     title: 工程检查报告
     path: .tensornote-runs/chapter6-smoke.json
     kind: json
   pretrain-output:
-    title: 预训练输出
+    title: 预训练模型
     path: .tensornote-runs/pretrain
     kind: model
+  sft-output:
+    title: SFT 模型
+    path: .tensornote-runs/sft
+    kind: model
 downloads:
+  base-model:
+    title: Qwen2.5 1.5B 配置与分词器
+    url: https://huggingface.co/Qwen/Qwen2.5-1.5B
+    cache: autodl-tmp/qwen-1.5b
+    license: Apache-2.0；运行前请以模型页面为准
   pretrain-dataset:
-    title: Mobvoi Seq-Monkey general corpus
+    title: Mobvoi Seq-Monkey 通用语料
     url: https://modelscope.cn/datasets/ddzhu123/seq-monkey
-    sizeMB: 1200
     cache: autodl-tmp/dataset/pretrain_data
-    license: 请在下载前核对数据集页面许可
+    license: 运行前请核对数据集页面许可
   sft-dataset:
     title: BelleGroup train 3.5M CN
     url: https://huggingface.co/datasets/BelleGroup/train_3.5M_CN
-    sizeMB: 3500
     cache: autodl-tmp/dataset/sft_data/BelleGroup
-    license: 请在下载前核对数据集页面许可
+    license: 运行前请核对数据集页面许可

@@ -9,7 +9,6 @@ import sys
 from dataclasses import dataclass, field
 from torchdata.datapipes.iter import IterableWrapper
 from itertools import chain
-import deepspeed
 from typing import Optional,List,Dict
 from torch.utils.data import Dataset
 import json
@@ -33,7 +32,6 @@ from transformers import (
 import datetime
 from transformers.testing_utils import CaptureLogger
 from transformers.trainer_utils import get_last_checkpoint
-import swanlab
 from tqdm import tqdm
 
 
@@ -183,9 +181,6 @@ def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
-    # 初始化 SwanLab
-    swanlab.init(project="sft", experiment_name="qwen-1.5b")
-    
     # 设置日志
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",

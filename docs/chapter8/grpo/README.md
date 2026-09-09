@@ -12,6 +12,9 @@ status: stable
 
 # GRPO 配套代码
 
+> [!experiment]
+> 请从[[llm-reinforcement-learning|第八章正文]]的实验面板选择 `grpo-sync-minimal` 或 `grpo-async-minimal`。它们会产生远端请求，并非离线演示。请先完成 `trio login`、确认模型可用性与费用，再显式启动；实验跟踪默认关闭。想先零成本理解计算过程，请运行 `workflow-smoke`。
+
 > **代码来源：** 本目录代码引用并整理自本章作者维护的 [agentic-rl-lab](https://github.com/KMnO4-zx/agentic-rl-lab) 中的 [01-grpo](https://github.com/KMnO4-zx/agentic-rl-lab/tree/main/01-grpo) 实现，当前版本适配 Happy-LLM 第八章与 PyTRIO 0.2.6。
 
 本目录对应正文 8.1 节，以 GSM8K 为例实现完整的 PyTRIO GRPO 训练链路。同步版与异步版使用相同的 prompt、规则奖励、组内相对优势、Datum 对齐和 loss。

@@ -23,6 +23,8 @@
 
 > [!NOTE]
 > 这是面向 TensorNote 阅读与实验体验的适配分支。请在 TensorNote 中打开仓库根目录，并从 [`docs/README.md`](./docs/README.md) 的课程主页开始；原 Happy-LLM 正文与工程代码仍然保留。
+>
+> 第五至第八章已提供 TensorNote Project Experiment：每章默认使用不联网的 smoke，重型训练、API 和 Agentic RL 则按依赖与风险拆为需显式启动的预设。
 
 <div align="center">
   <p><a href="https://datawhalechina.github.io/happy-llm/">📚 在线阅读地址</a></p>

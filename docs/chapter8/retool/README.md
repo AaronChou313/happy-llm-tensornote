@@ -12,6 +12,9 @@ status: stable
 
 # ReTool 配套代码
 
+> [!danger]
+> 请从[[llm-reinforcement-learning|第八章正文]]的实验面板选择 `retool-minimal-isolated`。这个预设会执行模型生成的 Python。TensorNote 不会替代操作系统级沙箱：请只在无凭证、低权限、可销毁的容器或虚拟机中显式启动，并先检查远端训练费用。
+
 > **代码来源：** 本目录代码引用并整理自本章作者维护的 [agentic-rl-lab](https://github.com/KMnO4-zx/agentic-rl-lab) 中的 [05-retool](https://github.com/KMnO4-zx/agentic-rl-lab/tree/main/05-retool) 实现，当前版本适配 Happy-LLM 第八章与 PyTRIO 0.2.6。
 
 本目录对应正文 8.4 节。代码实现数学题上的多轮代码解释器 rollout、结果奖励、observation mask、PPO 更新和统一评测。

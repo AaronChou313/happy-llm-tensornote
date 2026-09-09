@@ -1,0 +1,148 @@
+schemaVersion: 1
+experiment:
+  id: chapter8-agentic-rl
+  title: 第八章：GRPO 与 Agentic RL
+  description: >-
+    默认只做离线结构与优势归一化检查。其余预设会访问数据集与 PyTRIO 远端训练服务，
+    可能产生费用；ReTool 还会执行模型生成的代码，必须使用隔离环境。
+  workingDirectory: .
+  difficulty: heavy
+  estimatedMinutes: 2
+resources:
+  cpu: 4
+  memoryGB: 8
+  diskGB: 20
+environments:
+  smoke:
+    python: "3.13"
+    files: []
+  remote:
+    python: "3.13"
+    files: [requirements.txt]
+parameters:
+  base-model:
+    type: string
+    label: PyTRIO 基础模型
+    default: Qwen/Qwen3.5-4B
+  steps:
+    type: integer
+    label: 最小训练步数
+    default: 1
+    minimum: 1
+    maximum: 1000
+  group-size:
+    type: integer
+    label: 每题采样轨迹数
+    default: 2
+    minimum: 2
+    maximum: 32
+  max-tokens:
+    type: integer
+    label: 单次生成上限
+    default: 256
+    minimum: 64
+    maximum: 8192
+presets:
+  workflow-smoke:
+    title: 00 · 离线算法与工程检查
+    environment: smoke
+    steps: [workflow-smoke]
+  grpo-sync-minimal:
+    title: 01 · GRPO 同步最小训练（远端）
+    environment: remote
+    steps: [grpo-sync]
+  grpo-async-minimal:
+    title: 02 · GRPO 异步最小训练（远端）
+    environment: remote
+    steps: [grpo-async]
+  opd-sync-minimal:
+    title: 03 · OPD 同步最小训练（远端）
+    environment: remote
+    steps: [opd-sync]
+  opd-async-minimal:
+    title: 04 · OPD 异步最小训练（远端）
+    environment: remote
+    steps: [opd-async]
+  search-r1-minimal:
+    title: 05 · Search-R1 最小训练（联网）
+    environment: remote
+    steps: [search-prepare, search-train]
+  retool-minimal-isolated:
+    title: 06 · ReTool 最小训练（仅隔离环境）
+    environment: remote
+    steps: [retool-prepare, retool-train]
+defaultPreset: workflow-smoke
+steps:
+  workflow-smoke:
+    title: 检查脚本并计算组内相对优势
+    runner: python
+    file: experiment_smoke.py
+    outputs: [.tensornote-runs/chapter8-smoke.json]
+  grpo-sync:
+    title: 运行同步 GRPO
+    runner: python
+    file: grpo/01-demo-sync.py
+    args: [--base-model, "${parameters.base-model}", --steps, "${parameters.steps}", --batch-size, "1", --group-size, "${parameters.group-size}", --max-tokens, "${parameters.max-tokens}", --swanlab-mode, disabled]
+  grpo-async:
+    title: 运行异步 GRPO
+    runner: python
+    file: grpo/02-demo-async.py
+    args: [--base-model, "${parameters.base-model}", --steps, "${parameters.steps}", --batch-size, "1", --group-size, "${parameters.group-size}", --max-tokens, "${parameters.max-tokens}", --swanlab-mode, disabled]
+  opd-sync:
+    title: 运行同步 OPD
+    runner: python
+    file: opd/01-demo-sync.py
+    args: [--base-model, "${parameters.base-model}", --steps, "${parameters.steps}", --batch-size, "1", --group-size, "${parameters.group-size}", --max-tokens, "${parameters.max-tokens}", --sample-size, "8", --no-swanlab, --swanlab-mode, disabled]
+  opd-async:
+    title: 运行异步 OPD
+    runner: python
+    file: opd/02-demo-async.py
+    args: [--base-model, "${parameters.base-model}", --steps, "${parameters.steps}", --batch-size, "1", --group-size, "${parameters.group-size}", --max-tokens, "${parameters.max-tokens}", --sample-size, "8", --no-swanlab, --swanlab-mode, disabled]
+  search-prepare:
+    title: 下载并整理 Search-R1 数据
+    runner: python
+    file: search-r1/prepare_data.py
+    args: [--output-dir, search-r1/datasets, --dev-per-source, "2"]
+    outputs: [search-r1/datasets]
+  search-train:
+    title: 使用 Wikipedia 后端训练 Search-R1
+    runner: python
+    file: search-r1/train.py
+    dependsOn: [search-prepare]
+    args: [--max-steps, "${parameters.steps}", --data, search-r1/datasets/train.jsonl, --max-train-samples, "4", --base-model, "${parameters.base-model}", --questions-per-batch, "1", --group-size, "${parameters.group-size}", --max-search-calls, "1", --search-backend, wikipedia, --max-assistant-turns, "2", --max-assistant-tokens, "${parameters.max-tokens}", --swanlab-mode, disabled, --save-every, "0"]
+  retool-prepare:
+    title: 下载并整理 ReTool 数据
+    runner: python
+    file: retool/prepare_data.py
+    args: [--output-dir, retool/datasets, --dev-size, "2"]
+    outputs: [retool/datasets]
+  retool-train:
+    title: 在隔离环境运行 ReTool
+    runner: python
+    file: retool/train.py
+    dependsOn: [retool-prepare]
+    args: [--max-steps, "${parameters.steps}", --data, retool/datasets/train.jsonl, --max-train-samples, "4", --base-model, "${parameters.base-model}", --questions-per-batch, "1", --group-size, "${parameters.group-size}", --max-code-calls, "1", --max-assistant-turns, "2", --max-assistant-tokens, "${parameters.max-tokens}", --sandbox-workers, "1", --swanlab-mode, disabled, --save-every, "0"]
+artifacts:
+  smoke-report:
+    title: 强化学习离线检查报告
+    path: .tensornote-runs/chapter8-smoke.json
+    kind: json
+  search-data:
+    title: Search-R1 数据
+    path: search-r1/datasets
+    kind: directory
+  retool-data:
+    title: ReTool 数据
+    path: retool/datasets
+    kind: directory
+downloads:
+  search-r1-data:
+    title: NQ 与 HotpotQA
+    url: https://modelscope.cn/datasets
+    cache: search-r1/datasets
+    license: 运行前请分别核对 NQ 与 HotpotQA 的许可
+  retool-data:
+    title: DAPO-Math-17K
+    url: https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k
+    cache: retool/datasets
+    license: 运行前请核对数据集页面许可

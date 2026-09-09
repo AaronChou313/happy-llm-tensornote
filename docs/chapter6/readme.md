@@ -12,6 +12,9 @@ status: stable
 
 # 第六章实践说明
 
+> [!experiment]
+> TensorNote 将实践拆为离线工程检查、数据处理 Notebook、预训练 Notebook、单卡/双卡预训练和单卡/双卡 SFT。首次打开先运行默认检查；Notebook 与训练预设会安装对应依赖，完整训练还需准备模型、数据与 CUDA GPU。外部下载会在运行计划中单独展示，SwanLab 默认不启用。
+
 第六章聚焦如何基于 Transformers 生态完成大模型训练实践，正文主线为 Pretrain、SFT 与 PEFT 三部分，适合作为从手写模型实现过渡到工业界训练框架的桥梁章节。
 
 ## 1. 本章包含什么
@@ -41,7 +44,7 @@ status: stable
 
 ## 4. 环境建议
 
-- 依赖文件：[`code/requirements.txt`](./code/requirements.txt)
+- 依赖按实验分层：`requirements-base.txt`、`requirements-training.txt`、`requirements-distributed.txt` 与 `requirements-notebook.txt`；TensorNote 会按所选预设创建环境。
 - 推荐 Python 版本：3.10 或 3.11
 - 推荐硬件：多卡 GPU；如果资源有限，建议优先使用小样本或单卡环境调试数据处理与训练流程
 

@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 from src.core import Agent
 from src.tools import add, count_letter_in_string, compare, get_current_datetime, search_wikipedia, get_current_temperature
@@ -12,10 +13,12 @@ st.set_page_config(
 )
 
 # --- OpenAI客户端初始化 ---
-client = OpenAI(
-    api_key="your siliconflow api key",
-    base_url="https://api.siliconflow.cn/v1",  
-)
+api_key = os.getenv("OPENAI_API_KEY")
+base_url = os.getenv("OPENAI_BASE_URL")
+if not api_key or not base_url:
+    st.error("请先在受信任环境中配置 OPENAI_API_KEY 和 OPENAI_BASE_URL。")
+    st.stop()
+client = OpenAI(api_key=api_key, base_url=base_url)
 
 # --- Agent初始化 ---
 @st.cache_resource
@@ -24,7 +27,7 @@ def load_agent():
     return Agent(
         client=client,
         model="Qwen/Qwen2.5-32B-Instruct",  # 使用的模型
-        tools=[get_current_datetime, search_wikipedia, get_current_temperature],  # Agent可以使用的工具
+        tools=[add, compare, count_letter_in_string],
     )
 
 agent = load_agent()  # 加载Agent
